@@ -41,7 +41,7 @@ select s_name, count(borrows.id) as `amount`
 from students 
 join borrows on students.s_id = borrows.student_id
 where students.s_id
-group by students.s_name
+group by students.s_id
 order by amount desc;
 
 -- - Lấy ra các học viên mượn sách nhiều nhất của thư viện				
