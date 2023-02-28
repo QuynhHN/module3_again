@@ -1,3 +1,4 @@
+drop database if exists `library`;
 create database `library`;
 use `library`;
 create table category(
