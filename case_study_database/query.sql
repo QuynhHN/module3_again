@@ -103,7 +103,7 @@ WHERE
         WHERE
             YEAR(hop_dong.ngay_lam_hop_dong) = 2021
                 AND YEAR(hop_dong.ngay_lam_hop_dong) != 2020)
-GROUP BY dich_vu.ten_dich_vu;
+GROUP BY dich_vu.ma_dich_vu;
 SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 -- and not exists (select * from hop_dong where hop_dong.ngay_lam_hop_dong = 2021) 
 -- Task 8.	Hiển thị thông tin ho_ten khách hàng có trong hệ thống, với yêu cầu ho_ten không trùng nhau.
@@ -187,12 +187,20 @@ WHERE
         AND YEAR(ngay_lam_hop_dong) = 2021)
 GROUP BY hd.ma_hop_dong;
 -- Task 13.	Hiển thị thông tin các Dịch vụ đi kèm được sử dụng nhiều nhất bởi các Khách hàng đã đặt phòng.
-create view view_dich_vu_di_kem as
-select dich_vu_di_kem.ma_dich_vu_di_kem, dich_vu_di_kem.ten_dich_vu_di_kem,sum(hop_dong_chi_tiet.so_luong) as slsd 
-from hop_dong_chi_tiet
-join dich_vu_di_kem on hop_dong_chi_tiet.ma_dich_vu_di_kem = dich_vu_di_kem.ma_dich_vu_di_kem
-group by hop_dong_chi_tiet.ma_dich_vu_di_kem
-having sum(hop_dong_chi_tiet.so_luong) =(select max(so_luong) from hop_dong_chi_tiet);
+CREATE VIEW view_dich_vu_di_kem AS
+    SELECT 
+        dich_vu_di_kem.ma_dich_vu_di_kem,
+        dich_vu_di_kem.ten_dich_vu_di_kem,
+        SUM(hop_dong_chi_tiet.so_luong) AS slsd
+    FROM
+        hop_dong_chi_tiet
+            JOIN
+        dich_vu_di_kem ON hop_dong_chi_tiet.ma_dich_vu_di_kem = dich_vu_di_kem.ma_dich_vu_di_kem
+    GROUP BY hop_dong_chi_tiet.ma_dich_vu_di_kem
+    HAVING SUM(hop_dong_chi_tiet.so_luong) = (SELECT 
+            MAX(so_luong)
+        FROM
+            hop_dong_chi_tiet);
 
 -- Task 14.	Hiển thị thông tin tất cả các Dịch vụ đi kèm chỉ mới được sử dụng một lần duy nhất.
 -- Thông tin hiển thị bao gồm ma_hop_dong, ten_loai_dich_vu, ten_dich_vu_di_kem, so_lan_su_dung
@@ -218,14 +226,6 @@ GROUP BY hdct.ma_dich_vu_di_kem
 HAVING so_lan_su_dung = 1
 ORDER BY hd.ma_hop_dong;
 
-select hop_dong.ma_hop_dong,dich_vu.ten_dich_vu,dich_vu_di_kem.ten_dich_vu_di_kem,count(hop_dong_chi_tiet.ma_dich_vu_di_kem) as so_lan_su_dung
-from hop_dong
-join dich_vu on hop_dong.ma_dich_vu =dich_vu.ma_dich_vu
-join hop_dong_chi_tiet on hop_dong_chi_tiet.ma_hop_dong = hop_dong.ma_hop_dong
- join dich_vu_di_kem on dich_vu_di_kem.ma_dich_vu_di_kem = hop_dong_chi_tiet.ma_dich_vu_di_kem
-group by dich_vu_di_kem.ten_dich_vu_di_kem
-having count(hop_dong_chi_tiet.ma_dich_vu_di_kem) =1
-order by ma_hop_dong;
 -- Task 15.	Hiển thi thông tin của tất cả nhân viên bao gồm ma_nhan_vien, ho_ten, ten_trinh_do, ten_bo_phan, so_dien_thoai,
 -- dia_chi mới chỉ lập được tối đa 3 hợp đồng từ năm 2020 đến 2021.
 SELECT 
