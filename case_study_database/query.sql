@@ -196,12 +196,13 @@ having sum(hop_dong_chi_tiet.so_luong) =(select max(so_luong) from hop_dong_chi_
 
 -- Task 14.	Hiển thị thông tin tất cả các Dịch vụ đi kèm chỉ mới được sử dụng một lần duy nhất.
 -- Thông tin hiển thị bao gồm ma_hop_dong, ten_loai_dich_vu, ten_dich_vu_di_kem, so_lan_su_dung
-
+-- SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 SELECT 
     hd.ma_hop_dong,
     ldv.ten_loai_dich_vu,
     dvdk.ma_dich_vu_di_kem,
     dvdk.ten_dich_vu_di_kem,
+    hdct.ma_hop_dong_chi_tiet,
     COUNT(hdct.ma_hop_dong_chi_tiet) AS so_lan_su_dung
 FROM
     hop_dong AS hd
@@ -263,6 +264,7 @@ WHERE
             YEAR(ngay_lam_hop_dong) BETWEEN 2019 AND 2021
         GROUP BY nv.ma_nhan_vien
         HAVING COUNT(hd.ma_hop_dong) < 1) AS c);
+SELECT * FROM nhan_vien;        
 SET SQL_SAFE_UPDATES = 0;
 -- Task 17.	Cập nhật thông tin những khách hàng có ten_loai_khach từ Platinum lên Diamond,
 -- chỉ cập nhật những khách hàng đã từng đặt phòng với Tổng Tiền thanh toán trong năm 2021 là lớn hơn 10.000.000 VNĐ.
@@ -301,7 +303,7 @@ WHERE
                 AND ten_loai_khach = 'Platinium');
 
 SELECT 
-    kh.ma_khach_hang, kh.ho_ten, lk.ten_loai_khach
+    kh.ma_khach_hang, kh.ho_ten, lk.ten_loai_khach,lk.ma_loai_khach
 FROM
     khach_hang kh
         JOIN
@@ -322,6 +324,10 @@ WHERE
         
         WHERE
             YEAR(ngay_lam_hop_dong) < 2021) AS c);
+SELECT 
+    *
+FROM
+    khach_hang;
 SET FOREIGN_KEY_CHECKS=0;
 -- Task 19.	Cập nhật giá cho các dịch vụ đi kèm được sử dụng trên 10 lần trong năm 2020 lên gấp đôi.
 UPDATE dich_vu_di_kem 
@@ -337,4 +343,29 @@ WHERE
                 dich_vu_di_kem
             GROUP BY ma_dich_vu_di_kem
             HAVING COUNT(ma_dich_vu_di_kem) > 10) AS c);
-		
+-- Task 20.	Hiển thị thông tin của tất cả các nhân viên và khách hàng có trong hệ thống, 
+-- thông tin hiển thị bao gồm id (ma_nhan_vien, ma_khach_hang), ho_ten, email, so_dien_thoai, ngay_sinh, dia_chi.
+drop view if exists danh_sach;
+CREATE VIEW danh_sach AS
+    (SELECT 
+        nhan_vien.ma_nhan_vien AS id,
+        nhan_vien.ho_ten,
+        nhan_vien.email,
+        nhan_vien.so_dien_thoai,
+        nhan_vien.ngay_sinh,
+        nhan_vien.dia_chi
+    FROM
+        nhan_vien
+            LEFT JOIN
+        hop_dong ON hop_dong.ma_nhan_vien = nhan_vien.ma_nhan_vien
+            LEFT JOIN
+        khach_hang ON hop_dong.ma_khach_hang = khach_hang.ma_khach_hang
+            AND khach_hang.ma_khach_hang = nhan_vien.ma_nhan_vien
+            AND nhan_vien.ho_ten = khach_hang.ho_ten
+            AND nhan_vien.ma_nhan_vien = khach_hang.ma_khach_hang
+            AND nhan_vien.email = khach_hang.email
+            AND nhan_vien.so_dien_thoai = khach_hang.so_dien_thoai
+            AND nhan_vien.ngay_sinh = khach_hang.ngay_sinh
+            AND khach_hang.dia_chi = nhan_vien.dia_chi
+    GROUP BY id
+    );	
