@@ -18,7 +18,9 @@ WHERE
     (YEAR(CURDATE()) - YEAR(ngay_sinh)) BETWEEN 18 AND 50
         AND dia_chi LIKE '%Đà Nẵng'
         OR dia_chi LIKE '%Quảng Trị';
--- Task 4.Đếm xem tương ứng với mỗi khách hàng đã từng đặt phòng bao nhiêu lần. Kết quả hiển thị được sắp xếp tăng dần theo số lần đặt phòng của khách hàng. Chỉ đếm những khách hàng nào có Tên loại khách hàng là “Diamond”.
+-- Task 4.Đếm xem tương ứng với mỗi khách hàng đã từng đặt phòng bao nhiêu lần. 
+-- Kết quả hiển thị được sắp xếp tăng dần theo số lần đặt phòng của khách hàng. 
+-- Chỉ đếm những khách hàng nào có Tên loại khách hàng là “Diamond”.
 SELECT 
     khach_hang.ma_khach_hang,
     khach_hang.ho_ten,
@@ -59,7 +61,8 @@ FROM
     loai_khach ON khach_hang.ma_loai_khach = loai_khach.ma_loai_khach
 GROUP BY hop_dong.ma_hop_dong , khach_hang.ma_khach_hang
 ORDER BY khach_hang.ma_khach_hang;
--- Task 6.Hiển thị ma_dich_vu, ten_dich_vu, dien_tich, chi_phi_thue, ten_loai_dich_vu của tất cả các loại dịch vụ chưa từng được khách hàng thực hiện đặt từ quý 1 của năm 2021 (Quý 1 là tháng 1, 2, 3).
+-- Task 6.Hiển thị ma_dich_vu, ten_dich_vu, dien_tich, chi_phi_thue, ten_loai_dich_vu của tất cả các loại dịch vụ
+-- chưa từng được khách hàng thực hiện đặt từ quý 1 của năm 2021 (Quý 1 là tháng 1, 2, 3).
 SELECT 
     dich_vu.ma_dich_vu,
     dich_vu.ten_dich_vu,
@@ -109,7 +112,8 @@ SELECT DISTINCT
 FROM
     khach_hang
 ORDER BY khach_hang.ho_ten;
--- Task 9.	Thực hiện thống kê doanh thu theo tháng, nghĩa là tương ứng với mỗi tháng trong năm 2021 thì sẽ có bao nhiêu khách hàng thực hiện đặt phòng.
+-- Task 9.	Thực hiện thống kê doanh thu theo tháng, nghĩa là tương ứng với mỗi tháng trong năm 2021 
+-- thì sẽ có bao nhiêu khách hàng thực hiện đặt phòng.
 SELECT 
     MONTH(hop_dong.ngay_lam_hop_dong) AS tháng,
     COUNT(khach_hang.ma_khach_hang) AS so_luong
@@ -121,7 +125,8 @@ WHERE
     YEAR(hop_dong.ngay_lam_hop_dong) = 2021
 GROUP BY MONTH(hop_dong.ngay_lam_hop_dong)
 ORDER BY tháng;
--- Task 10.	Hiển thị thông tin tương ứng với từng hợp đồng thì đã sử dụng bao nhiêu dịch vụ đi kèm. Kết quả hiển thị bao gồm ma_hop_dong, ngay_lam_hop_dong,
+-- Task 10.	Hiển thị thông tin tương ứng với từng hợp đồng thì đã sử dụng bao nhiêu dịch vụ đi kèm. 
+-- Kết quả hiển thị bao gồm ma_hop_dong, ngay_lam_hop_dong,
 -- ngay_ket_thuc, tien_dat_coc, so_luong_dich_vu_di_kem (được tính dựa trên việc sum so_luong ở dich_vu_di_kem).
 SELECT 
     hop_dong.ma_hop_dong,
@@ -134,7 +139,8 @@ FROM
         LEFT JOIN
     hop_dong_chi_tiet ON hop_dong.ma_hop_dong = hop_dong_chi_tiet.ma_hop_dong
 GROUP BY hop_dong.ma_hop_dong;
--- Task 11.	Hiển thị thông tin các dịch vụ đi kèm đã được sử dụng bởi những khách hàng có ten_loai_khach là “Diamond” và có dia_chi ở “Vinh” hoặc “Quảng Ngãi”
+-- Task 11.	Hiển thị thông tin các dịch vụ đi kèm đã được sử dụng bởi những khách hàng có ten_loai_khach là “Diamond” 
+-- và có dia_chi ở “Vinh” hoặc “Quảng Ngãi”
 SELECT 
     dich_vu_di_kem.ma_dich_vu_di_kem,
     dich_vu_di_kem.ten_dich_vu_di_kem
@@ -181,21 +187,20 @@ WHERE
         AND YEAR(ngay_lam_hop_dong) = 2021)
 GROUP BY hd.ma_hop_dong;
 -- Task 13.	Hiển thị thông tin các Dịch vụ đi kèm được sử dụng nhiều nhất bởi các Khách hàng đã đặt phòng.
-create view view_dich_vu_di_kem as 
-select sum(ifnull(so_luong,0)) as so_luong_dich_vu_di_kem 
+create view view_dich_vu_di_kem as
+select dich_vu_di_kem.ma_dich_vu_di_kem, dich_vu_di_kem.ten_dich_vu_di_kem,sum(hop_dong_chi_tiet.so_luong) as slsd 
 from hop_dong_chi_tiet
-group by ma_dich_vu_di_kem;
-select dich_vu_di_kem.ma_dich_vu_di_kem, dich_vu_di_kem.ten_dich_vu_di_kem, dich_vu_di_kem.gia, dich_vu_di_kem.don_vi, dich_vu_di_kem.trang_thai,
-sum(ifnull(hop_dong_chi_tiet.so_luong,0)) as so_luong_dich_vu_di_kem
-from hop_dong_chi_tiet as hdct
-join dich_vu_di_kem as dvdk on dvdk.ma_dich_vu_di_kem = hdct.ma_dich_vu_di_kem
-group by hdct.ma_dich_vu_di_kem
-having so_luong_dich_vu_di_kem = (select max(view_dich_vu_di_kem.so_luong_dich_vu_di_kem)from view_dich_vu_di_kem); 
--- Task 14.	Hiển thị thông tin tất cả các Dịch vụ đi kèm chỉ mới được sử dụng một lần duy nhất. Thông tin hiển thị bao gồm ma_hop_dong,
--- ten_loai_dich_vu, ten_dich_vu_di_kem, so_lan_su_dung
+join dich_vu_di_kem on hop_dong_chi_tiet.ma_dich_vu_di_kem = dich_vu_di_kem.ma_dich_vu_di_kem
+group by hop_dong_chi_tiet.ma_dich_vu_di_kem
+having sum(hop_dong_chi_tiet.so_luong) =(select max(so_luong) from hop_dong_chi_tiet);
+
+-- Task 14.	Hiển thị thông tin tất cả các Dịch vụ đi kèm chỉ mới được sử dụng một lần duy nhất.
+-- Thông tin hiển thị bao gồm ma_hop_dong, ten_loai_dich_vu, ten_dich_vu_di_kem, so_lan_su_dung
+
 SELECT 
     hd.ma_hop_dong,
     ldv.ten_loai_dich_vu,
+    dvdk.ma_dich_vu_di_kem,
     dvdk.ten_dich_vu_di_kem,
     COUNT(hdct.ma_hop_dong_chi_tiet) AS so_lan_su_dung
 FROM
@@ -204,14 +209,22 @@ FROM
     dich_vu AS dv ON hd.ma_dich_vu = dv.ma_dich_vu
         JOIN
     loai_dich_vu AS ldv ON ldv.ma_loai_dich_vu = dv.ma_loai_dich_vu
-        JOIN
+        left join
     hop_dong_chi_tiet AS hdct ON hd.ma_hop_dong = hdct.ma_hop_dong
-        JOIN
+        left join
     dich_vu_di_kem AS dvdk ON dvdk.ma_dich_vu_di_kem = hdct.ma_dich_vu_di_kem
 GROUP BY hdct.ma_dich_vu_di_kem
 HAVING so_lan_su_dung = 1
 ORDER BY hd.ma_hop_dong;
 
+select hop_dong.ma_hop_dong,dich_vu.ten_dich_vu,dich_vu_di_kem.ten_dich_vu_di_kem,count(hop_dong_chi_tiet.ma_dich_vu_di_kem) as so_lan_su_dung
+from hop_dong
+join dich_vu on hop_dong.ma_dich_vu =dich_vu.ma_dich_vu
+join hop_dong_chi_tiet on hop_dong_chi_tiet.ma_hop_dong = hop_dong.ma_hop_dong
+ join dich_vu_di_kem on dich_vu_di_kem.ma_dich_vu_di_kem = hop_dong_chi_tiet.ma_dich_vu_di_kem
+group by dich_vu_di_kem.ten_dich_vu_di_kem
+having count(hop_dong_chi_tiet.ma_dich_vu_di_kem) =1
+order by ma_hop_dong;
 -- Task 15.	Hiển thi thông tin của tất cả nhân viên bao gồm ma_nhan_vien, ho_ten, ten_trinh_do, ten_bo_phan, so_dien_thoai,
 -- dia_chi mới chỉ lập được tối đa 3 hợp đồng từ năm 2020 đến 2021.
 SELECT 
@@ -250,7 +263,7 @@ WHERE
             YEAR(ngay_lam_hop_dong) BETWEEN 2019 AND 2021
         GROUP BY nv.ma_nhan_vien
         HAVING COUNT(hd.ma_hop_dong) < 1) AS c);
--- SET SQL_SAFE_UPDATES = 0;
+SET SQL_SAFE_UPDATES = 0;
 -- Task 17.	Cập nhật thông tin những khách hàng có ten_loai_khach từ Platinum lên Diamond,
 -- chỉ cập nhật những khách hàng đã từng đặt phòng với Tổng Tiền thanh toán trong năm 2021 là lớn hơn 10.000.000 VNĐ.
 CREATE VIEW v_tong_tien AS
@@ -324,3 +337,4 @@ WHERE
                 dich_vu_di_kem
             GROUP BY ma_dich_vu_di_kem
             HAVING COUNT(ma_dich_vu_di_kem) > 10) AS c);
+		
