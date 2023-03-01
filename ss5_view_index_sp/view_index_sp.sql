@@ -7,7 +7,7 @@ drop index index_b_name on books;
 create view view_borows_book as select books.b_name, count(borrows.id) as `amount`
 from books
 join borrows on books.b_id= borrows.book_id
-group by books.b_name
+group by books.b_id
 order by amount asc;
 
 -- Viết 1 stored procedure thêm mới book trong database với tham số kiểu IN--

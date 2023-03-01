@@ -48,5 +48,5 @@ order by amount desc;
 select s_name, count(borrows.id) as `amount`
 from students 
 join borrows on students.s_id = borrows.student_id
-group by students.s_name
+group by students.s_id
 order by amount desc limit 2;
