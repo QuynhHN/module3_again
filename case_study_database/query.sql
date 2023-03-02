@@ -1,5 +1,6 @@
 use `case_study_database`;
--- Task 2.Hiển thị thông tin của tất cả nhân viên có trong hệ thống có tên bắt đầu là một trong các ký tự “H”, “T” hoặc “K” và có tối đa 15 kí tự.
+-- Task 2.Hiển thị thông tin của tất cả nhân viên có trong hệ thống có tên bắt đầu
+-- là một trong các ký tự “H”, “T” hoặc “K” và có tối đa 15 kí tự.
 SELECT 
     *
 FROM
@@ -8,7 +9,7 @@ WHERE
     SUBSTRING_INDEX(nhan_vien.ho_ten, ' ', - 1) LIKE 'H%'
         OR SUBSTRING_INDEX(nhan_vien.ho_ten, ' ', - 1) LIKE 'T%'
         OR SUBSTRING_INDEX(nhan_vien.ho_ten, ' ', - 1) LIKE 'K%'
-        AND LENGTH(ho_ten) <= 15;
+        AND LENGTH(ho_ten) <= 15; 
 -- Task 3.Hiển thị thông tin của tất cả khách hàng có độ tuổi từ 18 đến 50 tuổi và có địa chỉ ở “Đà Nẵng” hoặc “Quảng Trị”.
 SELECT 
     *
@@ -112,6 +113,16 @@ SELECT DISTINCT
 FROM
     khach_hang
 ORDER BY khach_hang.ho_ten;
+-- Cách 2
+SELECT 
+    ho_ten
+FROM
+    khach_hang
+GROUP BY ho_ten;
+-- Cách 3
+select t.ho_ten
+from (select ho_ten, row_number() over (partition by ho_ten) as rownumber from khach_hang) t
+where t.rownumber < 2;
 -- Task 9.	Thực hiện thống kê doanh thu theo tháng, nghĩa là tương ứng với mỗi tháng trong năm 2021 
 -- thì sẽ có bao nhiêu khách hàng thực hiện đặt phòng.
 SELECT 
@@ -139,7 +150,8 @@ FROM
         LEFT JOIN
     hop_dong_chi_tiet ON hop_dong.ma_hop_dong = hop_dong_chi_tiet.ma_hop_dong
 GROUP BY hop_dong.ma_hop_dong;
--- Task 11.	Hiển thị thông tin các dịch vụ đi kèm đã được sử dụng bởi những khách hàng có ten_loai_khach là “Diamond” 
+-- Task 11.	Hiển thị thông tin các dịch vụ đi kèm đã được sử dụng bởi những khách 
+-- hàng có ten_loai_khach là “Diamond” 
 -- và có dia_chi ở “Vinh” hoặc “Quảng Ngãi”
 SELECT 
     dich_vu_di_kem.ma_dich_vu_di_kem,
@@ -155,8 +167,8 @@ FROM
         JOIN
     loai_khach ON khach_hang.ma_loai_khach = loai_khach.ma_loai_khach
 WHERE
-    loai_khach.ten_loai_khach LIKE 'Diamond'
-        AND (khach_hang.dia_chi LIKE '%Vinh'
+    loai_khach.ten_loai_khach = 'Diamond'
+        AND (khach_hang.dia_chi LIKE '%Vinh%'
         OR khach_hang.dia_chi LIKE '%Quảng Ngãi')
 GROUP BY dich_vu_di_kem.ma_dich_vu_di_kem;
 -- Task 12.	Hiển thị thông tin ma_hop_dong, ho_ten (nhân viên), ho_ten (khách hàng), so_dien_thoai (khách hàng), ten_dich_vu, so_luong_dich_vu_di_kem 
@@ -298,9 +310,7 @@ WHERE
             v_tong_tien.ma_khach_hang
         FROM
             v_tong_tien
-        WHERE
-            v_tong_tien.tong_tien > '1000000'
-                AND ten_loai_khach = 'Platinium');
+        );
 
 SELECT 
     kh.ma_khach_hang, kh.ho_ten, lk.ten_loai_khach,lk.ma_loai_khach
@@ -343,6 +353,36 @@ WHERE
                 dich_vu_di_kem
             GROUP BY ma_dich_vu_di_kem
             HAVING COUNT(ma_dich_vu_di_kem) > 10) AS c);
+            
+-- dùng trigger-- 	
+DELIMITER //
+drop trigger if exists dich_vu_di_kem//
+create trigger dich_vu_di_kem
+before update 
+on dich_vu_di_kem for each row
+begin
+IF dich_vu_di_kem.gia <> new.gia*10 THEN
+        INSERT INTO dich_vu_di_kem(ten_dich_vu_di_kem,gia,don_vi,trang_thai)
+        VALUES(ten_dich_vu_di_kem,gia*10,don_vi,trang_thai);
+    END IF;
+    end ;//
+    delimiter ;
+  UPDATE dich_vu_di_kem 
+SET 
+    gia = gia * 10
+WHERE
+    ma_dich_vu_di_kem IN (SELECT 
+            id
+        FROM
+            (SELECT 
+                ma_dich_vu_di_kem AS id
+            FROM
+                dich_vu_di_kem
+            GROUP BY ma_dich_vu_di_kem
+            HAVING COUNT(ma_dich_vu_di_kem) > 10) AS c);  
+select* from dich_vu_di_kem;             
+SET SQL_SAFE_UPDATES = 0;
+            
 -- Task 20.	Hiển thị thông tin của tất cả các nhân viên và khách hàng có trong hệ thống, 
 -- thông tin hiển thị bao gồm id (ma_nhan_vien, ma_khach_hang), ho_ten, email, so_dien_thoai, ngay_sinh, dia_chi.
 drop view if exists danh_sach;
