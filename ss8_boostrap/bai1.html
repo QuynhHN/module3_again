@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ne Ta shop</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap-5.0.2-dist">
+    <link rel="stylesheet" type="text/css" href="bootstrap-5.0.2-dist/bootstrap-5.0.2-dist/css/bootstrap-grid.css">
+    <style>
+        a {
+            color: white;
+            text-decoration: none !important;
+        }
+
+        a:hover {
+            color: #55efc4;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .nav_ul {
+            list-style-type: none;
+            /*display: inline-block;*/
+            margin-top: 0;
+            margin-left: 345px;
+        }
+
+        .nav_li {
+            float: left;
+            margin-right: 27px;
+        }
+
+        /*.active {*/
+        /*    background-color: #58257b;*/
+        /*    color: white;*/
+        /*}*/
+
+        .ul_dh {
+            border: 1px solid black;
+            padding: 0;
+            text-indent: 20px;
+            width: 84%;
+        }
+
+        .li_dh {
+            list-style-type: none;
+            height: 40px;
+        }
+
+        .span_dh {
+            line-height: 2
+        }
+
+        /*.li_dh:hover{*/
+        /*    background: linear-gradient(to right,#ee5253,#ff9f43,#feca57,#1dd1a1,#48dbfb,#fd79a8,#ff9ff3);*/
+        /*}*/
+
+        .quynh1:hover {
+            background: linear-gradient(to right, #353b48, #718093, #7f8fa6, #f5f6fa);
+        }
+
+        .quynh2:hover {
+            background: linear-gradient(to right, #22a6b3, #7ed6df, #c7ecee, #dff9fb);
+        }
+
+        .quynh3:hover {
+            background: linear-gradient(to right, #d63031, #ff7675, #fab1a0, #ffb8b8, #ffcccc);
+        }
+
+        .row {
+            margin-bottom: 35px;
+        }
+
+
+        .screen-reader{
+            width: var(--screenReaderWidth, 1px) !important;
+            height: var(--screenReaderHeight, 1px) !important;
+            padding: var(--screenReaderPadding, 0) !important;
+            border: var(--screenReaderBorder, none) !important;
+
+            position: var(--screenReaderPosition, absolute) !important;
+            clip: var(--screenReaderClip, rect(1px, 1px, 1px, 1px)) !important;
+            overflow: var(--screenReaderOverflow, hidden) !important;
+        }
+
+        /*
+        =====
+        CORE STYLES
+        =====
+        */
+
+        .rating{
+            --uiRatingColor: var(--ratingColor, #eee);
+            --uiRatingColorActive: var(--ratingColorActive, #ffcc00);
+
+            display: var(--ratingDisplay, flex);
+            font-size: var(--ratingSize, 1rem);
+            color: var(--uiRatingColor);
+        }
+
+        .rating__control:nth-of-type(1):focus ~ .rating__item:nth-of-type(1)::before,
+        .rating__control:nth-of-type(2):focus ~ .rating__item:nth-of-type(2)::before,
+        .rating__control:nth-of-type(3):focus ~ .rating__item:nth-of-type(3)::before,
+        .rating__control:nth-of-type(4):focus ~ .rating__item:nth-of-type(4)::before,
+        .rating__control:nth-of-type(5):focus ~ .rating__item:nth-of-type(5)::before{
+            content: "";
+            box-shadow: 0 0 0 var(--ratingOutlineWidth, 4px) var(--uiRatingColorActive);
+
+            position: absolute;
+            top: -.15em;
+            right: 0;
+            bottom: -.15em;
+            left: 0;
+            z-index: -1;
+        }
+
+        .rating__item{
+            cursor: pointer;
+            position: relative;
+        }
+
+        .rating__item{
+            padding-left: .25em;
+            padding-right: .25em;
+        }
+
+        .rating__star{
+            display: block;
+            width: 1em;
+            height: 1em;
+
+            fill: currentColor;
+            stroke: var(--ratingStroke, #222);
+            stroke-width: var(--ratingStrokeWidth, 1px);
+        }
+
+        .rating:hover,
+        .rating__control:nth-of-type(1):checked ~ .rating__item:nth-of-type(1),
+        .rating__control:nth-of-type(2):checked ~ .rating__item:nth-of-type(-n+2),
+        .rating__control:nth-of-type(3):checked ~ .rating__item:nth-of-type(-n+3),
+        .rating__control:nth-of-type(4):checked ~ .rating__item:nth-of-type(-n+4),
+        .rating__control:nth-of-type(5):checked ~ .rating__item:nth-of-type(-n+5){
+            color: var(--uiRatingColorActive);
+        }
+
+        .rating__item:hover ~ .rating__item{
+            color: var(--uiRatingColor);
+        }
+
+        /*
+        =====
+        SETTINGS
+        =====
+        */
+
+        .rating{
+            --ratingSize: 2rem;
+            --ratingColor: #eee;
+            --ratingColorActive: #ffcc00;
+        }
+
+        /*
+        =====
+        DEMO
+        =====
+        */
+
+        body{
+            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Open Sans, Ubuntu, Fira Sans, Helvetica Neue, sans-serif;
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .page{
+            background: #dcdde1;
+            min-height: auto;
+            display: flex;
+        }
+
+        .page__demo{
+            margin: auto;
+        }
+
+        .page__group{
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .page__hint{
+            display: block;
+            font-weight: 700;
+            margin-top: 1rem;
+        }
+
+        @media (min-width: 641px){
+            .page__demo{
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .page__group{
+                margin-left: 3.5rem;
+                margin-right: 3.5rem;
+            }
+
+            /*.newspaper {*/
+            /*    !*column-count: 3;*!*/
+            /*    column-gap: 20px;*/
+            /*}*/
+        }
+    </style>
+
+</head>
+<body>
+<div class="container" style="border: 1px solid black; background: dimgrey;height: 54px;">
+    <div class="row" style="    margin-top: 17px;">
+        <div class="col-4">
+            <nav class="navbar navbar-light bg-light " style="width: 68%">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                        Nền tảng
+                    </a>
+                </div>
+            </nav>
+        </div>
+        <div class="col-8">
+            <ul class="nav justify-content-end nav_ul">
+                <li class="nav-item nav_li">
+                    <a class="nav-link active" aria-current="page" href="#">Trang chủ</a>
+                </li>
+                <li class="nav-item nav_li">
+                    <a class="nav-link" href="#">Giới thiệu</a>
+                </li>
+                <li class="nav-item nav_li">
+                    <a class="nav-link" href="#">Dịch vụ</a>
+                </li>
+                <li class="nav-item nav_li">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Liên hệ</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-3">
+            <h1>NeTa shop</h1>
+            <ul class="ul_dh">
+                <li class="li_dh quynh1" style="border-bottom: 1px solid black;"><span class="span_dh">Categogy 1</span>
+                </li>
+                <li class="li_dh quynh2" style="border-bottom: 1px solid black"><span class="span_dh">Categogy 2</span>
+                </li>
+                <li class="li_dh quynh3"><span class="span_dh">Categogy 3</span></li>
+            </ul>
+        </div>
+<!--        <div class="col-3"></div>-->
+        <div class="col-9" style=" height: 1230px;">
+            <img style="display: block;width: 100%;height: 31%;"
+                 src="bootstrap-5.0.2-dist/bootstrap-5.0.2-dist/img/avatar-meo-cute-1%20(2).jpg" alt="">
+
+            <div class="row newspaper">
+                <div class="col-4" style="margin-top: 25px;  width: 31.333333%;margin-right: 26px;">
+                    <div class="card" style="width: 100%; border: 1px solid black; ">
+                        <img style="width: 100%" src="data:image/jpeg;base64,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"
+                             class="card-img-top">
+                        <div class="card-body" style="padding-left: 15px">
+                            <h3 class="card-title" style="color: #D6A2E8">Sản phẩm One</h3>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                        </div>
+                        <div>
+                            <div class="page">
+                                <div class="page__group" style="margin: 16px auto">
+                                    <div class="rating">
+                                        <input type="radio" name="rating-star1" class="rating__control screen-reader" id="rc1">
+                                        <input type="radio" name="rating-star1" class="rating__control screen-reader" id="rc2">
+                                        <input type="radio" name="rating-star1" class="rating__control screen-reader" id="rc3" checked>
+                                        <input type="radio" name="rating-star1" class="rating__control screen-reader" id="rc4">
+                                        <input type="radio" name="rating-star1" class="rating__control screen-reader" id="rc5">
+                                        <label for="rc1" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">1</span>
+                                        </label>
+                                        <label for="rc2" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">2</span>
+                                        </label>
+                                        <label for="rc3" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">3</span>
+                                        </label>
+                                        <label for="rc4" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">4</span>
+                                        </label>
+                                        <label for="rc5" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">5</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+                                <symbol id="star" viewBox="0 0 26 28">
+                                    <path d="M26 10.109c0 .281-.203.547-.406.75l-5.672 5.531 1.344 7.812c.016.109.016.203.016.313 0 .406-.187.781-.641.781a1.27 1.27 0 0 1-.625-.187L13 21.422l-7.016 3.687c-.203.109-.406.187-.625.187-.453 0-.656-.375-.656-.781 0-.109.016-.203.031-.313l1.344-7.812L.39 10.859c-.187-.203-.391-.469-.391-.75 0-.469.484-.656.875-.719l7.844-1.141 3.516-7.109c.141-.297.406-.641.766-.641s.625.344.766.641l3.516 7.109 7.844 1.141c.375.063.875.25.875.719z"/>
+                                </symbol>
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-4" style="margin-top: 25px;  width: 31.333333%;margin-right: 26px;">
+                    <div class="card" style="width: 100%; border: 1px solid black; ">
+                        <img style="width: 100%" src="data:image/jpeg;base64,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"
+                             class="card-img-top">
+                        <div class="card-body" style="padding-left: 15px">
+                            <h3 class="card-title" style="color: #D6A2E8">Sản phẩm One</h3>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                        </div>
+                        <div>
+                            <div class="page">
+                                    <div class="page__group" style="margin: 16px auto">
+                                        <div class="rating">
+                                            <input type="radio" name="rating-star2" class="rating__control screen-reader" id="rc6">
+                                            <input type="radio" name="rating-star2" class="rating__control screen-reader" id="rc7">
+                                            <input type="radio" name="rating-star2" class="rating__control screen-reader" id="rc8" >
+                                            <input type="radio" name="rating-star2" class="rating__control screen-reader" id="rc9"checked>
+                                            <input type="radio" name="rating-star2" class="rating__control screen-reader" id="rc10">
+                                            <label for="rc6" class="rating__item">
+                                                <svg class="rating__star">
+                                                    <use xlink:href="#star"></use>
+                                                </svg>
+                                                <span class="screen-reader">1</span>
+                                            </label>
+                                            <label for="rc7" class="rating__item">
+                                                <svg class="rating__star">
+                                                    <use xlink:href="#star"></use>
+                                                </svg>
+                                                <span class="screen-reader">2</span>
+                                            </label>
+                                            <label for="rc8" class="rating__item">
+                                                <svg class="rating__star">
+                                                    <use xlink:href="#star"></use>
+                                                </svg>
+                                                <span class="screen-reader">3</span>
+                                            </label>
+                                            <label for="rc9" class="rating__item">
+                                                <svg class="rating__star">
+                                                    <use xlink:href="#star"></use>
+                                                </svg>
+                                                <span class="screen-reader">4</span>
+                                            </label>
+                                            <label for="rc10" class="rating__item">
+                                                <svg class="rating__star">
+                                                    <use xlink:href="#star"></use>
+                                                </svg>
+                                                <span class="screen-reader">5</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+                                <symbol id="star" viewBox="0 0 26 28">
+                                    <path d="M26 10.109c0 .281-.203.547-.406.75l-5.672 5.531 1.344 7.812c.016.109.016.203.016.313 0 .406-.187.781-.641.781a1.27 1.27 0 0 1-.625-.187L13 21.422l-7.016 3.687c-.203.109-.406.187-.625.187-.453 0-.656-.375-.656-.781 0-.109.016-.203.031-.313l1.344-7.812L.39 10.859c-.187-.203-.391-.469-.391-.75 0-.469.484-.656.875-.719l7.844-1.141 3.516-7.109c.141-.297.406-.641.766-.641s.625.344.766.641l3.516 7.109 7.844 1.141c.375.063.875.25.875.719z"/>
+                                </symbol>
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-4" style="margin-top: 25px;  width: 31.333333%;">
+                    <div class="card" style="width: 100%; border: 1px solid black; ">
+                        <img style="width: 100%" src="data:image/jpeg;base64,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"
+                             class="card-img-top">
+                        <div class="card-body" style="padding-left: 15px">
+                            <h3 class="card-title" style="color: #D6A2E8">Sản phẩm One</h3>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                        </div>
+                        <div>
+                            <div class="page">
+                                <div class="page__group" style="margin: 16px auto">
+                                    <div class="rating">
+                                        <input type="radio" name="rating-star3" class="rating__control screen-reader" id="rc11">
+                                        <input type="radio" name="rating-star3" class="rating__control screen-reader" id="rc12">
+                                        <input type="radio" name="rating-star3" class="rating__control screen-reader" id="rc13" checked>
+                                        <input type="radio" name="rating-star3" class="rating__control screen-reader" id="rc14">
+                                        <input type="radio" name="rating-star" class="rating__control screen-reader" id="rc15">
+                                        <label for="rc11" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">1</span>
+                                        </label>
+                                        <label for="rc12" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">2</span>
+                                        </label>
+                                        <label for="rc13" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">3</span>
+                                        </label>
+                                        <label for="rc14" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">4</span>
+                                        </label>
+                                        <label for="rc15" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">5</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+                                <symbol id="star" viewBox="0 0 26 28">
+                                    <path d="M26 10.109c0 .281-.203.547-.406.75l-5.672 5.531 1.344 7.812c.016.109.016.203.016.313 0 .406-.187.781-.641.781a1.27 1.27 0 0 1-.625-.187L13 21.422l-7.016 3.687c-.203.109-.406.187-.625.187-.453 0-.656-.375-.656-.781 0-.109.016-.203.031-.313l1.344-7.812L.39 10.859c-.187-.203-.391-.469-.391-.75 0-.469.484-.656.875-.719l7.844-1.141 3.516-7.109c.141-.297.406-.641.766-.641s.625.344.766.641l3.516 7.109 7.844 1.141c.375.063.875.25.875.719z"/>
+                                </symbol>
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row newspaper" style="margin-bottom: 0">
+                <div class="col-4" style="margin-top: 25px; width: 31.333333%;margin-right: 26px; ">
+                    <div class="card" style="width: 100%; border: 1px solid black; ">
+                        <img style="width: 100%" src="data:image/jpeg;base64,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"
+                             class="card-img-top">
+                        <div class="card-body" style="padding-left: 15px">
+                            <h3 class="card-title" style="color: #D6A2E8">Sản phẩm One</h3>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                        </div>
+                        <div>
+                            <div class="page">
+                                <div class="page__group" style="margin: 16px auto">
+                                    <div class="rating">
+                                        <input type="radio" name="rating-star4" class="rating__control screen-reader" id="rc16">
+                                        <input type="radio" name="rating-star4" class="rating__control screen-reader" id="rc17">
+                                        <input type="radio" name="rating-star4" class="rating__control screen-reader" id="rc18" checked>
+                                        <input type="radio" name="rating-star4" class="rating__control screen-reader" id="rc19">
+                                        <input type="radio" name="rating-star4" class="rating__control screen-reader" id="rc20">
+                                        <label for="rc16" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">1</span>
+                                        </label>
+                                        <label for="rc17" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">2</span>
+                                        </label>
+                                        <label for="rc18" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">3</span>
+                                        </label>
+                                        <label for="rc19" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">4</span>
+                                        </label>
+                                        <label for="rc20" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">5</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+                                <symbol id="star" viewBox="0 0 26 28">
+                                    <path d="M26 10.109c0 .281-.203.547-.406.75l-5.672 5.531 1.344 7.812c.016.109.016.203.016.313 0 .406-.187.781-.641.781a1.27 1.27 0 0 1-.625-.187L13 21.422l-7.016 3.687c-.203.109-.406.187-.625.187-.453 0-.656-.375-.656-.781 0-.109.016-.203.031-.313l1.344-7.812L.39 10.859c-.187-.203-.391-.469-.391-.75 0-.469.484-.656.875-.719l7.844-1.141 3.516-7.109c.141-.297.406-.641.766-.641s.625.344.766.641l3.516 7.109 7.844 1.141c.375.063.875.25.875.719z"/>
+                                </symbol>
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-4" style="margin-top: 25px; width: 31.333333%;margin-right: 26px;">
+                    <div class="card" style="width: 100%; border: 1px solid black; ">
+                        <img style="width: 100%" src="data:image/jpeg;base64,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"
+                             class="card-img-top">
+                        <div class="card-body" style="padding-left: 15px">
+                            <h3 class="card-title" style="color: #D6A2E8">Sản phẩm One</h3>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                        </div>
+                        <div>
+                            <div class="page">
+                                <div class="page__group" style="margin: 16px auto">
+                                    <div class="rating">
+                                        <input type="radio" name="rating-star5" class="rating__control screen-reader" id="rc21">
+                                        <input type="radio" name="rating-star5" class="rating__control screen-reader" id="rc22">
+                                        <input type="radio" name="rating-star5" class="rating__control screen-reader" id="rc23" >
+                                        <input type="radio" name="rating-star5" class="rating__control screen-reader" id="rc24"checked>
+                                        <input type="radio" name="rating-star5" class="rating__control screen-reader" id="rc25">
+                                        <label for="rc21" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">1</span>
+                                        </label>
+                                        <label for="rc22" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">2</span>
+                                        </label>
+                                        <label for="rc23" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">3</span>
+                                        </label>
+                                        <label for="rc24" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">4</span>
+                                        </label>
+                                        <label for="rc25" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">5</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+                                <symbol id="star" viewBox="0 0 26 28">
+                                    <path d="M26 10.109c0 .281-.203.547-.406.75l-5.672 5.531 1.344 7.812c.016.109.016.203.016.313 0 .406-.187.781-.641.781a1.27 1.27 0 0 1-.625-.187L13 21.422l-7.016 3.687c-.203.109-.406.187-.625.187-.453 0-.656-.375-.656-.781 0-.109.016-.203.031-.313l1.344-7.812L.39 10.859c-.187-.203-.391-.469-.391-.75 0-.469.484-.656.875-.719l7.844-1.141 3.516-7.109c.141-.297.406-.641.766-.641s.625.344.766.641l3.516 7.109 7.844 1.141c.375.063.875.25.875.719z"/>
+                                </symbol>
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-4" style="margin-top: 25px; width: 31.333333%;">
+                    <div class="card" style="width: 100%; border: 1px solid black; ">
+                        <img style="width: 100%" src="data:image/jpeg;base64,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"
+                             class="card-img-top">
+                        <div class="card-body" style="padding-left: 15px">
+                            <h3 class="card-title" style="color: #D6A2E8">Sản phẩm One</h3>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                        </div>
+                        <div>
+                            <div class="page">
+                                <div class="page__group" style="margin: 16px auto">
+                                    <div class="rating">
+                                        <input type="radio" name="rating-star6" class="rating__control screen-reader" id="rc26">
+                                        <input type="radio" name="rating-star6" class="rating__control screen-reader" id="rc27">
+                                        <input type="radio" name="rating-star6" class="rating__control screen-reader" id="rc28" checked>
+                                        <input type="radio" name="rating-star6" class="rating__control screen-reader" id="rc29">
+                                        <input type="radio" name="rating-star6" class="rating__control screen-reader" id="rc30">
+                                        <label for="rc26" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">1</span>
+                                        </label>
+                                        <label for="rc27" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">2</span>
+                                        </label>
+                                        <label for="rc28" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">3</span>
+                                        </label>
+                                        <label for="rc29" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">4</span>
+                                        </label>
+                                        <label for="rc30" class="rating__item">
+                                            <svg class="rating__star">
+                                                <use xlink:href="#star"></use>
+                                            </svg>
+                                            <span class="screen-reader">5</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+                                <symbol id="star" viewBox="0 0 26 28">
+                                    <path d="M26 10.109c0 .281-.203.547-.406.75l-5.672 5.531 1.344 7.812c.016.109.016.203.016.313 0 .406-.187.781-.641.781a1.27 1.27 0 0 1-.625-.187L13 21.422l-7.016 3.687c-.203.109-.406.187-.625.187-.453 0-.656-.375-.656-.781 0-.109.016-.203.031-.313l1.344-7.812L.39 10.859c-.187-.203-.391-.469-.391-.75 0-.469.484-.656.875-.719l7.844-1.141 3.516-7.109c.141-.297.406-.641.766-.641s.625.344.766.641l3.516 7.109 7.844 1.141c.375.063.875.25.875.719z"/>
+                                </symbol>
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="col-12" style="background: #2f3640;height: 32vh; ">
+        <p style="text-align: center; padding: 13vh; color: white">Bản quyền bởi <span style="color: #0dcaf0">Hoàng Thị Như Quỳnh </span>2023</p>
+    </div>
+</div>
+</div>
+
+
+<script src="bootstrap-5.0.2-dist/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
+<script src="bootstrap-5.0.2-dist/bootstrap-5.0.2-dist/js/bootstrap.js"></script>
+</body>
+</html>
