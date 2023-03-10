@@ -52,10 +52,10 @@
         /*    background-color:#b6effb;*/
         /*}*/
         h1 {
-            margin-top: 20px;
-            margin-bottom: 40px;
+            margin-top: 100px;
+            margin-bottom: 50px;
             text-align: center;
-            color: #6610f2;
+            color: #2c2972;
             font-weight: bolder;
             font-family: Bahnschrift;
             font-size: 30px;
@@ -66,12 +66,12 @@
         }
     </style>
 </head>
-<body>
+<body style="background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSurL56wFqEFVIr6PG36pABCOkOcoggv2SKw&usqp=CAU');background-size: cover">
 <h1>Danh sách học viên CodeGym</h1>
 <p class="text-center text-danger">${msg}</p>
 <table class="table" style="width: 600px">
     <thead>
-    <tr style="background: #61a5b2">
+    <tr style="background: #c49ca6">
         <th>No</th>
         <th>ID</th>
         <th>Name</th>
