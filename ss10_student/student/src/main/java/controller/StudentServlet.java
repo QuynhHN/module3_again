@@ -1,6 +1,6 @@
-package com.example.student.controller;
+package controller;
 
-import com.example.student.model.Student;
+import model.Student;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -20,7 +20,6 @@ public class StudentServlet extends HttpServlet {
         studentList.add(new Student(104, "Phạm Văn C", "1", 55.0));
         studentList.add(new Student(105, "Phạm Văn D", "1", null));
     }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(studentList.size()==0){
@@ -28,7 +27,6 @@ public class StudentServlet extends HttpServlet {
         }
         request.setAttribute("studentList", studentList);
         request.getRequestDispatcher("list.jsp").forward(request, response);
-
     }
 
     @Override

@@ -1,10 +1,10 @@
-package com.example.student.model;
+package model;
 
 public class Student {
-    private Integer id;
-    private String name;
-    private Integer gender;
-    private Double score;
+        private Integer id;
+        private String name;
+        private Integer gender;
+        private Double score;
 
     public Student(Integer id, String name, String gender, Double score) {
         this.id = id;
