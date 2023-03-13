@@ -81,15 +81,50 @@
     <tbody>
     <c:forEach var="books" items="${booksList}">
         <tr>
-            <th>${books.id}</th>
-            <th>${books.title}</th>
-            <th>${books.pageSize}</th>
-            <th>${books.author}</th>
-            <th>${books.category}</th>
+            <td>${books.id}</td>
+            <td>${books.title}</td>
+            <td>${books.pageSize}</td>
+            <td>${books.author}</td>
+            <td>${books.category}</td>
+            <td>
+                <button type="button" onclick="deleteInfo('${books.id}')"
+                        class="btn btn-danger"
+                        data-toggle="modal" data-target="#exampleModal">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+                <a href="/books?action=edit&id=${books.id}" class="btn btn-primary"><i
+                        class="fas fa-edit"></i></a>
+            </td>
+
         </tr>
     </c:forEach>
     </tbody>
 </table>
+<%-- modal xóa --%>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel" style="color: red">Delete book</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/books?action=delete" method="get">
+                <div class="modal-body">
+                    <input type="hidden" name="action" value="delete">
+                    <input hidden type="text" id="deleteId" name="deleteId">
+                    Are you sure?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-danger">Yes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>

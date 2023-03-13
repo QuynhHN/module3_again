@@ -1,7 +1,6 @@
 package com.example.library.repository.impl;
 
 import com.example.library.model.Books;
-import com.example.library.model.Category;
 import com.example.library.repository.IBooksRepository;
 
 import java.util.ArrayList;
@@ -22,6 +21,12 @@ public class BooksRepository implements IBooksRepository {
     @Override
     public List<Books> findAll() {
         return booksList;
+//        List<Books>bookList2=new ArrayList<>();
+//        for (int i = 0; i < booksList.size(); i++) {
+//            if(booksList.get(i).getTitle().contains()){
+//                bookList2.add(booksList.get(i));
+//            }
+//        }return bookList2;
     }
 
     @Override
@@ -31,6 +36,11 @@ public class BooksRepository implements IBooksRepository {
 
     @Override
     public Books findById(int id) {
+        for (Books books:booksList) {
+            if(id== books.getId()){
+                return books;
+            }
+        }
         return null;
     }
 
@@ -41,9 +51,20 @@ public class BooksRepository implements IBooksRepository {
 
     @Override
     public void deleteBooks(int id) {
-
+        for (int i = 0; i < booksList.size(); i++) {
+            if(id==booksList.get(i).getId()){
+                id=i;
+                break;
+            }
+        }
+        booksList.remove(id);
     }
 
+//    @Override
+//    public List<Category> bookCategoryList(String categoryName) {
+//        return bookCategoryList(categoryName);
+//
+//    }
 
 
 }

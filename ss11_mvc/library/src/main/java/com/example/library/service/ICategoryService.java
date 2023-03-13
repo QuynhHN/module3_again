@@ -5,5 +5,6 @@ import com.example.library.model.Category;
 import java.util.List;
 
 public interface ICategoryService {
-    List<Category> findAll();
+    List<Category> findAllCategory();
+    List<Category> bookCategoryList (String categoryName);
 }

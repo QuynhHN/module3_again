@@ -19,5 +19,20 @@ public class BooksService implements IBooksService {
     public void save(Books books) {
         iBooksRepository.save(books);
     }
+
+    @Override
+    public Books findById(int id) {
+        return null;
+    }
+
+    @Override
+    public void delete(int id) {
+        iBooksRepository.deleteBooks(id);
+    }
+
+//    @Override
+//    public List<Category> bookCategoryList(String categoryName) {
+//        return iBooksRepository.bookCategoryList(categoryName);
+//    }
 }
 

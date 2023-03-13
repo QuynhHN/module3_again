@@ -10,7 +10,12 @@ import java.util.List;
 public class CategoryService implements ICategoryService {
     private ICategoryRepository iCategoryRepository= new CategoryRepository();
         @Override
-        public List<Category> findAll() {
+        public List<Category> findAllCategory() {
             return iCategoryRepository.findAllCategory();
         }
+
+    @Override
+    public List<Category> bookCategoryList(String categoryName) {
+        return iCategoryRepository.bookCategoryList(categoryName);
+    }
 }

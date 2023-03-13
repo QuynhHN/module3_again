@@ -19,14 +19,15 @@
 </head>
 <body>
 <div class="container">
-    <form action="/books" method="post">
+    <form action="" method="post">
         <h1>Create Books</h1>
 
         <div class="input-group">
             <label for="id">ID Books</label>
             <input type="text"
-                   class="form-control" name="idBooks" id="id" aria-describedby="helpId" placeholder="Input id book">
+            class="form-control" name="idBooks" id="id" aria-describedby="helpId" placeholder="Input id book">
         </div>
+
         <div class="input-group">
             <label for="title">Title</label>
             <input type="text"
