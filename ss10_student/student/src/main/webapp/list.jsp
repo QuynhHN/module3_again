@@ -90,6 +90,7 @@
                 <c:if test="${student.gender ==0}">Female</c:if>
                 <c:if test="${student.gender ==1}">Male</c:if>
 
+
             </td>
             <td>${student.score}</td>
             <td>

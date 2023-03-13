@@ -1,13 +1,13 @@
-package model;
+package com.example.library.model;
 
-public class Book {
+public class Books {
     private Integer id;
     private String title;
     private Integer pageSize;
     private String author;
-    private Integer category;
+    private String category;
 
-    public Book(Integer id, String title, Integer pageSize, String author, Integer category) {
+    public Books(Integer id, String title, Integer pageSize, String author, String category) {
         this.id = id;
         this.title = title;
         this.pageSize = pageSize;
@@ -47,11 +47,11 @@ public class Book {
         this.author = author;
     }
 
-    public Integer getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Integer category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 }
