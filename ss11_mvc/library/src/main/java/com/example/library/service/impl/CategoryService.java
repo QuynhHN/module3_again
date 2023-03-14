@@ -15,7 +15,7 @@ public class CategoryService implements ICategoryService {
         }
 
     @Override
-    public List<Category> bookCategoryList(String categoryName) {
-        return iCategoryRepository.bookCategoryList(categoryName);
+    public List<Category> bookCategoryList() {
+        return iCategoryRepository.bookCategoryList();
     }
 }

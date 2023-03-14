@@ -85,7 +85,7 @@
             <td>${books.title}</td>
             <td>${books.pageSize}</td>
             <td>${books.author}</td>
-            <td>${books.category}</td>
+            <td>${books.category.nameCategory}</td>
             <td>
                 <button type="button" onclick="deleteInfo('${books.id}')"
                         class="btn btn-danger"
@@ -100,6 +100,7 @@
     </c:forEach>
     </tbody>
 </table>
+
 <%-- modal xóa --%>
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
      aria-hidden="true">

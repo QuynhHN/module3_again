@@ -9,6 +9,10 @@ public class Category {
         this.nameCategory = nameCategory;
     }
 
+    public Category(Integer idCategory) {
+        this.idCategory = idCategory;
+    }
+
     public Integer getIdCategory() {
         return idCategory;
     }

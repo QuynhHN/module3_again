@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: DELL
@@ -44,13 +45,16 @@
                    class="form-control" name="author" id="author" aria-describedby="helpId" placeholder="Input author book">
         </div>
         <div class="input-group">
-            <label for="category">Category</label>
-            <select class="form-select" name="category" id="category">
-                <option>Tự nhiên</option>
-                <option>Xã hội</option>
-                <option>Truyện</option>
-                <option>Tiểu thuyết</option>
-                <option>Khác</option>
+            <label for="categoryID" id="categoryID" >Category</label>
+            <select class="form-select" name="categoryID">
+                <c:forEach var="category" items="${categoryList}">
+                    <option  value="${category.idCategory}">${category.nameCategory}</option>
+                </c:forEach>
+<%--                <option value="1">Tự nhiên</option>--%>
+<%--                <option>Xã hội</option>--%>
+<%--                <option>Truyện</option>--%>
+<%--                <option>Tiểu thuyết</option>--%>
+<%--                <option>Khác</option>--%>
             </select>
         </div>
         <div>

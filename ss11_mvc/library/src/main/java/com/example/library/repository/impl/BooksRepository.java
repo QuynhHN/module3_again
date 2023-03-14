@@ -1,6 +1,7 @@
 package com.example.library.repository.impl;
 
 import com.example.library.model.Books;
+import com.example.library.model.Category;
 import com.example.library.repository.IBooksRepository;
 
 import java.util.ArrayList;
@@ -10,23 +11,23 @@ public class BooksRepository implements IBooksRepository {
     private static List<Books> booksList = new ArrayList<>();
 
     static {
-        booksList.add(new Books(1, "Toán", 45, "Nguyễn Thái Học", "Tự nhiên"));
-        booksList.add(new Books(2, "Văn", 34, "Trần Mình Hoàng", "Xã hội"));
-        booksList.add(new Books(3, "Sử", 56, "Dương Trung Quốc", "Xã hội"));
-        booksList.add(new Books(4, "Địa", 76, "Lê Văn Hiến", "Xã hội"));
-        booksList.add(new Books(5, "Hóa", 32, "Hà Văn Minh", "Tự nhiên"));
+        booksList.add(new Books(1, "Toán", 45, "Nguyễn Thái Học", new Category(1,"Tự nhiên")));
+        booksList.add(new Books(2, "Văn", 34, "Trần Mình Hoàng", new Category(2,"Xã hội")));
+        booksList.add(new Books(3, "Sử", 56, "Dương Trung Quốc",new Category(2,"Xã hội")));
+        booksList.add(new Books(4, "Địa", 76, "Lê Văn Hiến",new Category(2,"Xã hội")));
+        booksList.add(new Books(5, "Hóa", 32, "Hà Văn Minh",new Category(1,"Tự nhiên")));
 
     }
 
     @Override
     public List<Books> findAll() {
-        return booksList;
-//        List<Books>bookList2=new ArrayList<>();
-//        for (int i = 0; i < booksList.size(); i++) {
-//            if(booksList.get(i).getTitle().contains()){
-//                bookList2.add(booksList.get(i));
-//            }
-//        }return bookList2;
+//        return booksList;
+        List<Books>bookList2=new ArrayList<>();
+        for (int i = 0; i < booksList.size(); i++) {
+
+                bookList2.add(booksList.get(i));
+
+        }return bookList2;
     }
 
     @Override
@@ -45,8 +46,8 @@ public class BooksRepository implements IBooksRepository {
     }
 
     @Override
-    public void updateBooks(Books books) {
-
+    public void updateBooks(int id,Books books) {
+        booksList.set(id,books);
     }
 
     @Override
@@ -61,9 +62,9 @@ public class BooksRepository implements IBooksRepository {
     }
 
 //    @Override
-//    public List<Category> bookCategoryList(String categoryName) {
-//        return bookCategoryList(categoryName);
-//
+//    public List<Category> bookCategoryList() {
+//        return bookCategoryList();
+
 //    }
 
 

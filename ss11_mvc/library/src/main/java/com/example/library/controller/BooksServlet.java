@@ -1,8 +1,11 @@
 package com.example.library.controller;
 
 import com.example.library.model.Books;
+import com.example.library.model.Category;
 import com.example.library.service.IBooksService;
+import com.example.library.service.ICategoryService;
 import com.example.library.service.impl.BooksService;
+import com.example.library.service.impl.CategoryService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -12,6 +15,7 @@ import java.io.IOException;
 @WebServlet(name = "BooksServlet", value = "/books")
 public class BooksServlet extends HttpServlet {
     private IBooksService iBooksService = new BooksService();
+    private ICategoryService iCategoryService = new CategoryService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,10 +33,10 @@ public class BooksServlet extends HttpServlet {
 //                showEdit(request,response);
                 break;
             case "delete":
-                performDelete (request, response);
+                performDelete(request, response);
                 break;
             case "search":
-                performSearchUser (request, response);
+                performSearchUser(request, response);
                 break;
             default:
                 showBooksList(request, response);
@@ -45,7 +49,7 @@ public class BooksServlet extends HttpServlet {
     }
 
     private void performDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int id= Integer.parseInt(request.getParameter("deleteId"));
+        int id = Integer.parseInt(request.getParameter("deleteId"));
         iBooksService.delete(id);
         response.sendRedirect("/books");
     }
@@ -58,10 +62,8 @@ public class BooksServlet extends HttpServlet {
 //    }
 
     private void showCreate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-//        int id= Integer.parseInt(request.getParameter(""));
-//        Books books=iBooksService.findById(id);
-//        request.setAttribute("category",iBooksService.bookCategoryList(books.getCategory()));
-       request.getRequestDispatcher("/view/create.jsp").forward(request,response);
+        request.setAttribute("categoryList", iCategoryService.bookCategoryList());
+        request.getRequestDispatcher("/view/create.jsp").forward(request, response);
     }
 
     private void showBooksList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -74,8 +76,8 @@ public class BooksServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("action");
-        String tittleSearch=request.getParameter("tittleSearch");
-        if (tittleSearch==null){
+        String tittleSearch = request.getParameter("tittleSearch");
+        if (tittleSearch == null) {
             tittleSearch = "";
         }
         if (action == null) {
@@ -83,10 +85,10 @@ public class BooksServlet extends HttpServlet {
         }
         switch (action) {
             case "create":
-                performCreate (request, response);
+                performCreate(request, response);
                 break;
             case "edit":
-                performEdit(request,response);
+                performEdit(request, response);
             default:
                 showBooksList(request, response);
                 break;
@@ -96,6 +98,7 @@ public class BooksServlet extends HttpServlet {
     }
 
     private void performEdit(HttpServletRequest request, HttpServletResponse response) {
+
     }
 
     private void performCreate(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -103,8 +106,10 @@ public class BooksServlet extends HttpServlet {
         String title = request.getParameter("titleBooks");
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
         String author = request.getParameter("author");
-        String category = request.getParameter("category");
-        Books books = new Books(id, title, pageSize, author, category);
+        int categoryID = Integer.parseInt(request.getParameter("categoryID"));
+        Category category=new Category(categoryID);
+        Books books = new Books(id,title,pageSize,author,category);
+
         iBooksService.save(books);
         response.sendRedirect("/books");
     }

@@ -23,7 +23,7 @@ public class CategoryRepository implements ICategoryRepository {
     }
 
     @Override
-    public List<Category> bookCategoryList(String categoryName) {
+    public List<Category> bookCategoryList() {
             List<Category> bookcategoryList =new ArrayList<>();
             for (int i = 0; i < categoryList.size(); i++) {
                 bookcategoryList.add(categoryList.get(i));
