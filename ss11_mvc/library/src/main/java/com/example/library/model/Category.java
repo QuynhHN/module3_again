@@ -13,6 +13,10 @@ public class Category {
         this.idCategory = idCategory;
     }
 
+    public Category(String categoryName) {
+        this.nameCategory = nameCategory;
+    }
+
     public Integer getIdCategory() {
         return idCategory;
     }
