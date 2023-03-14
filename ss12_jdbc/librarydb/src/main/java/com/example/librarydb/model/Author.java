@@ -1,19 +1,27 @@
 package com.example.librarydb.model;
 
 public class Author {
-    private int authorId;
+    private Integer authorId;
     private String authorName;
 
     public Author(String authorName) {
+        this.authorName = authorName;
+    }
+
+    public Author(Integer authorId) {
+        this.authorId = authorId;
+    }
+
+    public Author(Integer authorId, String authorName) {
         this.authorId = authorId;
         this.authorName = authorName;
     }
 
-    public int getAuthorId() {
+    public Integer getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(int authorId) {
+    public void setAuthorId(Integer authorId) {
         this.authorId = authorId;
     }
 

@@ -5,19 +5,19 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class BaseRepository {
-    private static final String URL = "jdbc:mysql://localhost:3306/library";
-    private static final String USER = "root";
-    private static final String PASSWORD = "904719";
+    private static String jdbcURL = "jdbc:mysql://localhost:3306/library";
+    private static String jdbcUsername = "root";
+    private static String jdbcPassword = "904719";
+    private static Connection connection;
 
     public static Connection getConnection() {
-        Connection connection = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        if (connection == null) {
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
+            } catch (SQLException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
         return connection;
     }

@@ -35,7 +35,7 @@ public class BooksRepository implements IBooksRepository {
                 String nameCategory = resultSet.getString("c_name");
                 Category category = new Category(nameCategory);
                 Author author = new Author(authorName);
-                bookList2.add(new Books(id, title, pageSize,author,category));
+                bookList2.add(new Books(title, pageSize,author,category));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -57,9 +57,25 @@ public class BooksRepository implements IBooksRepository {
 
 
     @Override
-    public Books findById(int id) {
-
+    public Books findById(int id) throws SQLException {
+        PreparedStatement preparedStatement = BaseRepository.getConnection().prepareStatement(SELECT_BY_ID);
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            String title = resultSet.getString(1);
+            int pageSize = resultSet.getInt(2);
+            int authorId = resultSet.getInt(3);
+            String authorName = resultSet.getString(4);
+            int idCategory = resultSet.getInt(5);
+            String nameCategory = resultSet.getString(6);
+            Author author = new Author(authorId,authorName);
+            Category category = new Category(idCategory, nameCategory);
+            Books books = new Books(title, pageSize, author, category);
+            return books;
+        }
+        return null;
     }
+
 
     @Override
     public void updateBooks(int id, Books books) {
@@ -90,5 +106,33 @@ public class BooksRepository implements IBooksRepository {
             throwables.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public List<Author> authorList() throws SQLException {
+        List<Author> authorList = new ArrayList<>();
+        PreparedStatement preparedStatement = BaseRepository.getConnection().prepareStatement("select * from authors");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            int authorID = resultSet.getInt(1);
+            String authorName = resultSet.getString(2);
+            Author author = new Author(authorID, authorName);
+            authorList.add(author);
+        }
+        return authorList;
+    }
+
+    @Override
+    public List<Category> categoryList() throws SQLException {
+        List<Category> categoryList = new ArrayList<>();
+        PreparedStatement preparedStatement = BaseRepository.getConnection().prepareStatement("select * from category");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            int idCategory = resultSet.getInt(1);
+            String nameCategory = resultSet.getString(2);
+            Category category = new Category(idCategory, nameCategory);
+            categoryList.add(category);
+        }
+        return categoryList;
     }
 }

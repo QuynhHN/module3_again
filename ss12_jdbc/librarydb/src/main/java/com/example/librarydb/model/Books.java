@@ -7,7 +7,7 @@ public class Books {
     private Author author;
     private Category category;
 
-    public Books(Integer id, String title, Integer pageSize, Author author, Category category) {
+    public Books(String title, Integer pageSize, Author author, Category category) {
         this.id = id;
         this.title = title;
         this.pageSize = pageSize;
