@@ -1,2 +1,4 @@
-package com.example.librarydb.service;public class IBooksService {
+package com.example.librarydb.service;
+
+public class IBooksService {
 }
