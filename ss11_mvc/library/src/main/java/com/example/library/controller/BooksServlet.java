@@ -107,7 +107,7 @@ public class BooksServlet extends HttpServlet {
     }
 
     private void deleteBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = Integer.parseInt(request.getParameter("deleteId"));
         String mess = "Xóa Không thành công";
         boolean check = iBooksService.deleteBook(id);
         if (!check) {
@@ -115,7 +115,7 @@ public class BooksServlet extends HttpServlet {
         }
         request.setAttribute("mess", mess);
         List<Books> booksList = iBooksService.findAll();
-        request.setAttribute("playList",booksList);
+        request.setAttribute("booksList",booksList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/view/list.jsp");
         dispatcher.forward(request,response);
     }

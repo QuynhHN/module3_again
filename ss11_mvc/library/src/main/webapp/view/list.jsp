@@ -99,7 +99,7 @@
             <td>${books.author}</td>
             <td>${books.category.nameCategory}</td>
             <td>
-                <button type="button" onclick="deleteInfo(${books.id})"  class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button type="button" onclick="deleteInfo('${books.id}','${books.title}')"  class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     <i class="fas fa-trash-alt"></i>
                 </button>
                 <a href="/books?action=edit&id=${books.id}" class="btn btn-primary"><i
@@ -120,8 +120,8 @@
             </div>
             <form action="/books?action=delete" method="post">
                 <div class="modal-body">
-                    <label for="deleteId"></label><input type="text" hidden id="deleteId" name="id">
-                    Do you want to delete <span id="deleteName" style="color: brown; font-weight: bold"></span>
+                    <label for="deleteId"></label><input type="text" hidden id="deleteId" name="deleteId" value="${books.id}">
+                    Do you want to delete <span id="deleteName" style="color: brown; font-weight: bold">${books.title}</span>
                     ?
                 </div>
                 <div class="modal-footer">
@@ -133,9 +133,9 @@
     </div>
 </div>
     <script>
-        function deleteInfo(id, title) {
+        function deleteInfo(id, name) {
         document.getElementById("deleteId").value = id;
-        document.getElementById("deleteName").innerText = title;
+        document.getElementById("deleteName").innerText = name;
     }
 </script>
 </body>
