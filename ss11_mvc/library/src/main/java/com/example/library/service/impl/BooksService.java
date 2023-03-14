@@ -34,5 +34,10 @@ public class BooksService implements IBooksService {
     public void updateBooks(int id, Books books) {
         iBooksRepository.updateBooks(id, books);
     }
+
+    @Override
+    public boolean deleteBook(int id) {
+        return iBooksRepository.deleteBooks(id);
+    }
 }
 

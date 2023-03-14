@@ -11,6 +11,8 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(name = "BooksServlet", value = "/books")
 public class BooksServlet extends HttpServlet {
@@ -32,11 +34,11 @@ public class BooksServlet extends HttpServlet {
             case "edit":
                 showEdit(request, response);
                 break;
-            case "delete":
-                performDelete(request, response);
-                break;
+//            case "delete":
+//                performDelete(request, response);
+//                break;
             case "search":
-                performSearchUser(request, response);
+                performSearch(request, response);
                 break;
             default:
                 showBooksList(request, response);
@@ -44,15 +46,15 @@ public class BooksServlet extends HttpServlet {
         }
     }
 
-    private void performSearchUser(HttpServletRequest request, HttpServletResponse response) {
+    private void performSearch(HttpServletRequest request, HttpServletResponse response) {
 
     }
 
-    private void performDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int id = Integer.parseInt(request.getParameter("deleteId"));
-        iBooksService.delete(id);
-        response.sendRedirect("/books");
-    }
+//    private void performDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//        int id = Integer.parseInt(request.getParameter("deleteId"));
+//        iBooksService.delete(id);
+//        response.sendRedirect("/books");
+//    }
 
     private void showEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
@@ -91,6 +93,11 @@ public class BooksServlet extends HttpServlet {
                 break;
             case "edit":
                 performEdit(request, response);
+                break;
+            case "delete":
+                deleteBook(request, response);
+                break;
+
             default:
                 showBooksList(request, response);
                 break;
@@ -99,14 +106,38 @@ public class BooksServlet extends HttpServlet {
 
     }
 
+    private void deleteBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String mess = "Xóa Không thành công";
+        boolean check = iBooksService.deleteBook(id);
+        if (!check) {
+            mess = "Xóa Thành công";
+        }
+        request.setAttribute("mess", mess);
+        List<Books> booksList = iBooksService.findAll();
+        request.setAttribute("playList",booksList);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/list.jsp");
+        dispatcher.forward(request,response);
+    }
+
     private void performEdit(HttpServletRequest request, HttpServletResponse response) {
         int id = Integer.parseInt(request.getParameter("id"));
         String title = request.getParameter("title");
         int pageSize = Integer.parseInt(request.getParameter("pageSizeBooks"));
         String author = request.getParameter("author");
         int categoryID = Integer.parseInt(request.getParameter("categoryID"));
-        Category category = new Category(categoryID);
-        Books books = new Books(id, title, pageSize, author, category);
+        
+        Category categorySel = null;
+        List<Category> categoryList= new ArrayList<>();
+        categoryList = iCategoryService.findAllCategory();
+        for(Category category: categoryList){
+            if(category.getIdCategory().equals(categoryID)){
+                categorySel = category;
+                break;
+            }
+        }
+        Books books = new Books(id, title, pageSize, author);
+        books.setCategory(categorySel);
         iBooksService.updateBooks(id, books);
     }
 

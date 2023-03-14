@@ -14,7 +14,13 @@ public class Books {
         this.author = author;
         this.category = category;
     }
+    public Books(Integer id, String title, Integer pageSize, String author) {
+        this.id = id;
+        this.title = title;
+        this.pageSize = pageSize;
+        this.author = author;
 
+    }
     public Integer getId() {
         return id;
     }

@@ -10,6 +10,9 @@ public interface IBooksService {
     Books findById(int id);
     void delete(int id);
     void updateBooks(int id,Books books);
+
+    boolean deleteBook(int id);
+
 //    List<Category> bookCategoryList (String categoryName);
 
 

@@ -17,34 +17,39 @@
     <title>Create Books</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94Wr HftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <style>
+        .form-group{
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
+<div class="container" style="font-size: x-large;margin-left: 30rem">
     <form action="" method="post">
         <h1>Create Books</h1>
-
-        <div class="input-group">
+        <div class="form-group">
             <label for="id">ID Books</label>
             <input type="text"
             class="form-control" name="idBooks" id="id" aria-describedby="helpId" placeholder="Input id book">
         </div>
 
-        <div class="input-group">
+        <div class="form-group">
             <label for="title">Title</label>
             <input type="text"
                    class="form-control" name="titleBooks" id="title" aria-describedby="helpId" placeholder="Input title book">
         </div>
-        <div class="input-group">
+        <div class="form-group">
             <label for="pageSize">Page size</label>
             <input type="text"
                    class="form-control" name="pageSize" id="pageSize" aria-describedby="helpId" placeholder="Input page size book">
         </div>
-        <div class="input-group">
+        <div class="form-group">
             <label for="author">Author</label>
             <input type="text"
                    class="form-control" name="author" id="author" aria-describedby="helpId" placeholder="Input author book">
         </div>
-        <div class="input-group">
+        <div class="form-group">
             <label for="categoryID" id="categoryID" >Category</label>
             <select class="form-select" name="categoryID">
                 <c:forEach var="category" items="${categoryList}">

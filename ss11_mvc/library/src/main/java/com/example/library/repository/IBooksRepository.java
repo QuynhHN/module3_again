@@ -1,7 +1,6 @@
 package com.example.library.repository;
 
 import com.example.library.model.Books;
-import com.example.library.model.Category;
 
 import java.util.List;
 
@@ -14,5 +13,5 @@ public interface IBooksRepository {
 
     void updateBooks(int id, Books books);
 
-    void deleteBooks(int id);
+    boolean deleteBooks(int id);
 }
