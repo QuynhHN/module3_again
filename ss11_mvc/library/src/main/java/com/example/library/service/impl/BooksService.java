@@ -34,10 +34,5 @@ public class BooksService implements IBooksService {
     public void updateBooks(int id, Books books) {
         iBooksRepository.updateBooks(id, books);
     }
-
-//    @Override
-//    public List<Category> bookCategoryList(String categoryName) {
-//        return iBooksRepository.bookCategoryList(categoryName);
-//    }
 }
 

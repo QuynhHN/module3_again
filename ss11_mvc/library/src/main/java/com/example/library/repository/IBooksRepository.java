@@ -8,11 +8,11 @@ import java.util.List;
 public interface IBooksRepository {
     List<Books> findAll();
 
-    void save (Books books);
-Books findById(int id);
-void updateBooks(int id,Books books);
+    void save(Books books);
 
-void  deleteBooks(int id);
+    Books findById(int id);
 
-//    List<Category> bookCategoryList(String categoryName);
+    void updateBooks(int id, Books books);
+
+    void deleteBooks(int id);
 }

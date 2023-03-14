@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Update</title>
 </head>
 <body>
 <div class="col-md-5 main">
@@ -17,19 +17,24 @@
     <form action="" method="post">
         <input type="hidden" name="id" value="${books.id}">
         <label for="title">Input title</label>
-        <input type="text" class="form-control" name="title" id="title" value="${books.name}">
+        <input type="text" class="form-control" name="title" id="title"  value="${books.title}">
 
         <label for="pageSize">Input page size</label>
-        <input type="text" class="form-control" name="pageSize" id="pageSize" value="${books.pageSize}">
+        <input type="text" class="form-control" name="pageSizeBooks" id="pageSize" value="${books.pageSize}">
 
         <label for="author">Input author</label>
         <input type="text" class="form-control" name="author" id="author" value="${books.author}">
 
-        <label for="categoryName">Input category name</label>
-        <select class="form-control" id="categoryName" name="categoryName">
-            <option value="${books.categoryName}">${books.categoryName}</option>
-            <c:forEach var="booksCategory" items="${CategoryList}">
-                <option value="${Category.categoryName}">${Category.categoryName}</option>
+        <label for="categoryID" id="categoryID">Input category name</label>
+<%--        <select class="form-control" id="categoryName" name="categoryName">--%>
+<%--            <option value="${books.categoryName}">${books.categoryName}</option>--%>
+<%--            <c:forEach var="booksCategory" items="${CategoryList}">--%>
+<%--                <option value="${Category.categoryName}">${Category.categoryName}</option>--%>
+<%--            </c:forEach>--%>
+<%--        </select>--%>
+        <select class="form-select" name="categoryID">
+            <c:forEach var="category" items="${categoryList}">
+                <option  value="${category.idCategory}">${category.nameCategory}</option>
             </c:forEach>
         </select>
 

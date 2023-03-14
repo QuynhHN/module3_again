@@ -50,11 +50,6 @@
                 <c:forEach var="category" items="${categoryList}">
                     <option  value="${category.idCategory}">${category.nameCategory}</option>
                 </c:forEach>
-<%--                <option value="1">Tự nhiên</option>--%>
-<%--                <option>Xã hội</option>--%>
-<%--                <option>Truyện</option>--%>
-<%--                <option>Tiểu thuyết</option>--%>
-<%--                <option>Khác</option>--%>
             </select>
         </div>
         <div>

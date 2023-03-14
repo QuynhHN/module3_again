@@ -30,7 +30,7 @@ public class BooksServlet extends HttpServlet {
                 showCreate(request, response);
                 break;
             case "edit":
-//                showEdit(request,response);
+                showEdit(request, response);
                 break;
             case "delete":
                 performDelete(request, response);
@@ -54,12 +54,14 @@ public class BooksServlet extends HttpServlet {
         response.sendRedirect("/books");
     }
 
-//    private void showEdit(HttpServletRequest request, HttpServletResponse response) {
-//        int id= Integer.parseInt(request.getParameter("idBooks"));
-//        Books books=iBooksService.findById(id);
-//        request.setAttribute("books",books);
-//
-//    }
+    private void showEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        Books books = iBooksService.findById(id);
+        request.setAttribute("books", books);
+        request.setAttribute("categoryList", iCategoryService.bookCategoryList());
+        request.getRequestDispatcher("/view/edit.jsp").forward(request, response);
+
+    }
 
     private void showCreate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         request.setAttribute("categoryList", iCategoryService.bookCategoryList());
@@ -98,7 +100,14 @@ public class BooksServlet extends HttpServlet {
     }
 
     private void performEdit(HttpServletRequest request, HttpServletResponse response) {
-
+        int id = Integer.parseInt(request.getParameter("id"));
+        String title = request.getParameter("title");
+        int pageSize = Integer.parseInt(request.getParameter("pageSizeBooks"));
+        String author = request.getParameter("author");
+        int categoryID = Integer.parseInt(request.getParameter("categoryID"));
+        Category category = new Category(categoryID);
+        Books books = new Books(id, title, pageSize, author, category);
+        iBooksService.updateBooks(id, books);
     }
 
     private void performCreate(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -107,8 +116,8 @@ public class BooksServlet extends HttpServlet {
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
         String author = request.getParameter("author");
         int categoryID = Integer.parseInt(request.getParameter("categoryID"));
-        Category category=new Category(categoryID);
-        Books books = new Books(id,title,pageSize,author,category);
+        Category category = new Category(categoryID);
+        Books books = new Books(id, title, pageSize, author, category);
 
         iBooksService.save(books);
         response.sendRedirect("/books");

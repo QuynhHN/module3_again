@@ -60,12 +60,4 @@ public class BooksRepository implements IBooksRepository {
         }
         booksList.remove(id);
     }
-
-//    @Override
-//    public List<Category> bookCategoryList() {
-//        return bookCategoryList();
-
-//    }
-
-
 }
