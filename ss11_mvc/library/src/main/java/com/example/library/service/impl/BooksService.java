@@ -22,7 +22,7 @@ public class BooksService implements IBooksService {
 
     @Override
     public Books findById(int id) {
-        return null;
+        return iBooksRepository.findById(id);
     }
 
     @Override

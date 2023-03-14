@@ -34,7 +34,12 @@
 <%--        </select>--%>
         <select class="form-select" name="categoryID">
             <c:forEach var="category" items="${categoryList}">
-                <option  value="${category.idCategory}">${category.nameCategory}</option>
+                <c:if test="${category.idCategory == books.category.idCategory}">
+                    <option value="${category.idCategory}" selected>${category.nameCategory}</option>
+                </c:if>
+                <c:if test="${category.idCategory != books.category.idCategory}">
+                    <option value="${category.idCategory}">${category.nameCategory}</option>
+                </c:if>
             </c:forEach>
         </select>
 
