@@ -23,7 +23,7 @@
       display: flex;
       align-items: center;
       /* justify-content: center; */
-      height: 900px;
+      height: 700px;
       font-size: 24px;
     }
 
