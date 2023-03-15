@@ -26,18 +26,21 @@ public class BooksRepository implements IBooksRepository {
         List<Books> bookList2 = new ArrayList<>();
         if (connection != null) {
             try {
-                preparedStatement = connection.prepareStatement("select b_id as 'ID',b_name as 'Name',b_page_size as 'Page size',authors.a_name as 'Author', category.c_name as 'Category' from books\n" +
+                preparedStatement = connection.prepareStatement("select b_id,b_name,b_page_size,authors.a_id,authors.a_name,category.c_id, category.c_name from books\n" +
                         "left join category on category.c_id = books.b_category_id\n" +
                         "left join authors on authors.a_id = books.b_author_id;");
                 resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
+                    int id= resultSet.getInt("b_id");
                     String title = resultSet.getString("b_name");
                     int pageSize = resultSet.getInt("b_page_size");
+                    int authorId=resultSet.getInt("a_id");
                     String authorName = resultSet.getString("a_name");
+                    int idCategory=resultSet.getInt("c_id");
                     String nameCategory = resultSet.getString("c_name");
-                    Category category = new Category(nameCategory);
-                    Author author = new Author(authorName);
-                    bookList2.add(new Books(title, pageSize, author, category));
+                    Category category = new Category(idCategory,nameCategory);
+                    Author author = new Author(authorId,authorName);
+                    bookList2.add(new Books(id,title,pageSize,author,category));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
