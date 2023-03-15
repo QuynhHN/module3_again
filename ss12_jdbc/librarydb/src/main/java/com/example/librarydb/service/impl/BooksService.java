@@ -14,8 +14,11 @@ public class BooksService implements IBooksService {
     private IBooksRepository iBooksRepository = new BooksRepository();
 
     @Override
-    public List<Books> findAll() throws SQLException {
-        return iBooksRepository.findAll();
+    public List<Books> findAll(String name) throws SQLException {
+        if(name == null){
+            name = "";
+        }
+        return iBooksRepository.findAll(name);
     }
 
     @Override
@@ -34,7 +37,7 @@ public class BooksService implements IBooksService {
     }
 
     @Override
-    public void updateBooks(int id, Books books) {
+    public void updateBooks(int id, Books books) throws SQLException {
         iBooksRepository.updateBooks(id, books);
     }
 

@@ -8,13 +8,13 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface IBooksRepository {
-    List<Books> findAll() throws SQLException;
+    List<Books> findAll(String name) throws SQLException;
 
     void save(Books books) throws SQLException;
 
     Books findById(int id) throws SQLException;
 
-    void updateBooks(int id, Books books);
+    void updateBooks(int id, Books books) throws SQLException;
 
     boolean deleteBooks(int id);
     List<Author> authorList() throws SQLException;

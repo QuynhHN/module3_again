@@ -78,7 +78,16 @@
 </head>
 <body>
 <h1> Books List</h1>
+<div>
+<form action="">
+<div class="form-group">
+  <input type="text"
+         class="form-control" name="name" aria-describedby="helpId" placeholder="Search..." value="${nameSearch}" style="width: 150px;margin-left: 50px">
+  <input type="submit" value="Search">
+</div>
+</form>
 <a class="btn btn-primary" style="margin-left: 80px;margin-bottom: 30px" href="/books?action=create">Create new book</a>
+</div>
 <table class="table" style="width: 600px">
   <thead>
   <tr style="background: #c49ca6">
