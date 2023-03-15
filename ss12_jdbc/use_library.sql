@@ -31,5 +31,6 @@ begin
 delete from books where b_id = books_id;
 end; //
 DELIMITER ;
+call delete_books(?);
 
 
