@@ -14,7 +14,9 @@ import java.util.List;
 
 public class BooksRepository implements IBooksRepository {
     private static List<Books> booksList = new ArrayList<>();
-    private static final String SELECT_BY_ID = "select * from books where b_id = ?";
+    private static final String SELECT_BY_ID = "select b_id,b_name,b_page_size,authors.a_id,authors.a_name,category.c_id,category.c_name from books\n" +
+            "left join category on category.c_id = books.b_category_id\n" +
+            "left join authors on authors.a_id = books.b_author_id where b_id = ?";
     private static final String INSERT_BOOK_SQL = "insert into books(b_name, b_page_size,b_author_id,b_category_id) values(?,?,?,?)";
     private static final String UPDATE_BOOK_SQL = "update books set b_name = ?,b_page_size = ?,b_author_id = ?,b_category_id = ? where b_id = ?;";
     private final String DELETE_BOOK = "delete from books where b_id = ?";
@@ -26,7 +28,7 @@ public class BooksRepository implements IBooksRepository {
         List<Books> bookList2 = new ArrayList<>();
         if (connection != null) {
             try {
-                preparedStatement = connection.prepareStatement("select b_id,b_name,b_page_size,authors.a_id,authors.a_name,category.c_id, category.c_name from books\n" +
+                preparedStatement = connection.prepareStatement("select b_id,b_name,b_page_size,b_author_id,b_category_id,authors.a_id,authors.a_name,category.c_id, category.c_name from books\n" +
                         "left join category on category.c_id = books.b_category_id\n" +
                         "left join authors on authors.a_id = books.b_author_id;");
                 resultSet = preparedStatement.executeQuery();
@@ -63,17 +65,17 @@ public class BooksRepository implements IBooksRepository {
     @Override
     public Books findById(int id) throws SQLException {
         PreparedStatement preparedStatement = BaseRepository.getConnection().prepareStatement(SELECT_BY_ID);
-        preparedStatement.setInt(1, id);
+        preparedStatement.setInt(1,id);
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
-            String title = resultSet.getString(1);
-            int pageSize = resultSet.getInt(2);
-            int authorId = resultSet.getInt(3);
-            String authorName = resultSet.getString(4);
-            int idCategory = resultSet.getInt(5);
-            String nameCategory = resultSet.getString(6);
+            String title = resultSet.getString("b_name");
+            int pageSize = resultSet.getInt("b_page_size");
+            int authorId=resultSet.getInt("a_id");
+            String authorName = resultSet.getString("a_name");
+            int idCategory=resultSet.getInt("c_id");
+            String nameCategory = resultSet.getString("c_name");
+            Category category = new Category(idCategory,nameCategory);
             Author author = new Author(authorId,authorName);
-            Category category = new Category(idCategory, nameCategory);
             Books books = new Books(title, pageSize, author, category);
             return books;
         }
@@ -118,9 +120,9 @@ public class BooksRepository implements IBooksRepository {
         PreparedStatement preparedStatement = BaseRepository.getConnection().prepareStatement("select * from authors");
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
-            int authorID = resultSet.getInt("a_id");
-            String authorName = resultSet.getString("a_name");
-            Author author = new Author(authorID, authorName);
+            int authorId = resultSet.getInt(1);
+            String authorName = resultSet.getString(2);
+            Author author = new Author(authorId, authorName);
             authorList.add(author);
         }
         return authorList;

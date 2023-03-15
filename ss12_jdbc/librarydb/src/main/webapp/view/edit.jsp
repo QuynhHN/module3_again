@@ -66,11 +66,11 @@
     <label for="authorId" id="authorId">Input author: </label>
     <select class="form-select" name="authorId" >
       <c:forEach var="author" items="${authorList}">
-        <c:if test="${author.authorID == books.author.authorID}">
-          <option value="${author.authorID}" selected>${author.authorName}</option>
+        <c:if test="${author.authorId == books.author.authorId}">
+          <option value="${author.authorId}" selected>${author.authorName}</option>
         </c:if>
-        <c:if test="${author.authorID != books.author.authorID}">
-          <option value="${author.authorID}">${author.authorName}</option>
+        <c:if test="${author.authorId != books.author.authorId}">
+          <option value="${author.authorId}">${author.authorName}</option>
         </c:if>
       </c:forEach>
     </select>

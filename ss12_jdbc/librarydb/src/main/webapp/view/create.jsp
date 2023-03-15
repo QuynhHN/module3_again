@@ -48,7 +48,7 @@
             <label for="authorId" id="authorId">Author</label>
             <select class="form-select" name="authorId">
                 <c:forEach var="author" items="${authorList}">
-                    <option  value="${author.authorID}">${author.authorName}</option>
+                    <option  value="${author.authorId}">${author.authorName}</option>
                 </c:forEach>
             </select>
         </div>
