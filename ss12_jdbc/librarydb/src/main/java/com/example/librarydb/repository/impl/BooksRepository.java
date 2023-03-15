@@ -16,34 +16,35 @@ public class BooksRepository implements IBooksRepository {
     private static List<Books> booksList = new ArrayList<>();
     private static final String SELECT_BY_ID = "select * from books where b_id = ?";
     private static final String INSERT_BOOK_SQL = "insert into books(b_name, b_page_size,b_author_id,b_category_id) values(?,?,?,?)";
-    private static final String SELECT_BOOK_ID = "select * from books where b_id =?";
     private static final String UPDATE_BOOK_SQL = "update books set b_name = ?,b_page_size = ?,b_author_id = ?,b_category_id = ? where b_id = ?;";
     private final String DELETE_BOOK = "delete from books where b_id = ?";
     @Override
     public List<Books> findAll() {
-        List<Books> bookList2 = new ArrayList<>();
         Connection connection = BaseRepository.getConnection();
         PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = connection.prepareStatement("select * from books");
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                int id = resultSet.getInt("b_id");
-                String title = resultSet.getString("b_name");
-                int pageSize = resultSet.getInt("b_page_size");
-                String authorName = resultSet.getString("a_name");
-                String nameCategory = resultSet.getString("c_name");
-                Category category = new Category(nameCategory);
-                Author author = new Author(authorName);
-                bookList2.add(new Books(title, pageSize,author,category));
+        ResultSet resultSet = null;
+        List<Books> bookList2 = new ArrayList<>();
+        if (connection != null) {
+            try {
+                preparedStatement = connection.prepareStatement("select b_id as 'ID',b_name as 'Name',b_page_size as 'Page size',authors.a_name as 'Author', category.c_name as 'Category' from books\n" +
+                        "left join category on category.c_id = books.b_category_id\n" +
+                        "left join authors on authors.a_id = books.b_author_id;");
+                resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    String title = resultSet.getString("b_name");
+                    int pageSize = resultSet.getInt("b_page_size");
+                    String authorName = resultSet.getString("a_name");
+                    String nameCategory = resultSet.getString("c_name");
+                    Category category = new Category(nameCategory);
+                    Author author = new Author(authorName);
+                    bookList2.add(new Books(title, pageSize, author, category));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-
         return bookList2;
-}
-
+    }
     @Override
     public void save(Books books) throws SQLException {
         Connection connection = BaseRepository.getConnection();
@@ -114,8 +115,8 @@ public class BooksRepository implements IBooksRepository {
         PreparedStatement preparedStatement = BaseRepository.getConnection().prepareStatement("select * from authors");
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
-            int authorID = resultSet.getInt(1);
-            String authorName = resultSet.getString(2);
+            int authorID = resultSet.getInt("a_id");
+            String authorName = resultSet.getString("a_name");
             Author author = new Author(authorID, authorName);
             authorList.add(author);
         }
